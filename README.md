@@ -8,7 +8,7 @@ Easy to deploy developer environment, for writing/testing guides & documentation
 
 - [Docker](https://docs.docker.com/install/) installed
 
-### Build script
+### with build.sh
 
 Show help
 
@@ -27,21 +27,23 @@ Show help
 Start the build
 
 ```sh
-./build.sh -f /path/to/docs
+./build.sh -f /path/to/docs/repository
 ```
 
 Next, go to http:///localhost:8080/fr/
 
-### Steps (Manual)
+### without build.sh
 
-First, build the docker image
+#### Step 1, build the docker image
+
 ```sh
 git clone https://github.com/ovh/docs-developer-env.git
 cd docs-developer-env
 docker build -t ovh-docs-dev-env .
 ```
 
-Second, run docker container
+#### Step 2, run docker container
+
 ```sh
 # get the ovh docs repository
 git clone https://github.com/ovh/docs.git
@@ -51,16 +53,19 @@ cd docs
 docker run --rm -v $(pwd)/pages:/src/docs/pages -d --name ovh-docs-dev-env -p XXXXX:8080 ovh-docs-dev-env
 ```
 
-__Note__ : the pelican build, started in __debug mode__, takes __1 or 2 minutes__ to complete. 
+__Note 1__ : `$(pwd)/pages` above is the path to the `pages` folder of your local [docs repository](https://github.com/ovh/docs)
+__Note 2__ : the pelican build, started in __debug mode__, takes __1 or 2 minutes__ to complete. 
 
-Check the logs.
+
+#### Step 3, check the logs
+
 ```sh
 docker logs -f ovh-docs-dev-env
 ```
 
 When the build is complete, go to http://localhost:XXXXX/fr/ and check your works.
 
-Third, stop the container
+Finally, stop the container
 ```sh
 docker stop ovh-docs-dev-env
 ```
